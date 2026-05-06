@@ -1,0 +1,153 @@
+# Project Configuration
+api_keys:
+  eodhd: null
+  fred: null
+
+wandb:
+  project: "gdl-quantum-finance"
+  entity: null
+  tags: ["development"]
+  mode: "online" # Set to "disabled" to turn off logging globally
+
+
+paths:
+  equities_raw: "data/raw/equities"
+  macro_raw: "data/raw/macro"
+  metadata_path: "data/raw/metadata/ticker_metadata_master.csv"
+
+params:
+  start_date: "1999-01-04"
+  
+  # Macro Signals (Academic Standard - Daily value)
+  # These series are guaranteed to start before 1999
+  fred_signals:
+    US_10Y_YIELD: "DGS10"
+    US_02Y_YIELD: "DGS2"
+    UK_10Y_YIELD: "IRLTLT01GBM156N"
+    GER_10Y_YIELD: "IRLTLT01DEM156N"
+    JPN_10Y_YIELD: "IRLTLT01JPM156N"
+    GOLD_FIXING: "GOLDAMGBD228NLBM"  # London Gold Fixing Price AM
+    SILVER_FIXING: "ID70155"         # London Silver Price (Daily Spot)
+    CRUDE_OIL_SPOT: "DCOILWTICO"
+    VIX_INDEX: "VIXCLS"
+
+# Data loading
+data:
+  parquet_path: "data/processed/fact_table.parquet"
+  feature_columns:
+    - "log_return_5d"
+    - "log_return_20d"
+    - "vol_10d"
+    - "vol_22d"
+    - "vol_60d"
+    - "mom_3m"
+    - "mom_6m"
+    - "mom_12m"
+    - "volume_ratio"
+    - "amihud_illiquidity"
+    - "high_low_spread_22d"
+    - "price_to_52w_high"
+  context_columns:
+    - "yc_level"
+    - "yc_slope"
+    - "yc_slope_zscore"
+  target_column: "log_return_1d"
+  normalise: true
+
+# Model hyperparameters
+model:
+  # Geometric Layer
+  geometric:
+    input_dim: 12          # Number of input features (D) — must match len(data.feature_columns)
+    embedding_dim: 64      # Hypersphere ambient dimension (n); manifold dim = n - 1
+    eps: 1.0e-8            # Numerical stability constant for normalisation
+
+  # Quantum Layer
+  quantum:
+    num_regimes: 4         # Number of market regimes (K)
+    context_dim: 3         # Yield curve context dimension [level, slope, slope_zscore]
+
+  # Graph Layer
+  graph:
+    hidden_channels: 128   # GCN intermediate dimension
+    out_channels: 64       # Final GNN output dimension (must be divisible by gat_heads)
+    gat_heads: 4           # Number of GAT attention heads (H)
+    dropout: 0.1           # Feature dropout rate
+    edge_drop: 0.1         # DropEdge probability
+
+  # Graph Construction
+  graph_construction:
+    rolling_window: 504          # Trailing correlation window in trading days (2yr)
+    correlation_threshold: 0.25   # Minimum |correlation| to retain an edge (tau)
+    max_neighbours: 50          # Cap per-node degree after thresholding
+
+  # Prediction Head
+  prediction:
+    hidden_dim: 64         # Hidden layer in prediction MLP
+
+# Training hyperparameters
+training:
+  learning_rate: 1.0e-3
+  weight_decay: 5.0e-4
+  batch_size: 64
+  lstm_batch_size: 8      # A9 only: dates per batch; kept small because LSTM activation
+                          # memory scales as (dates × tickers × T × H), which exceeds VRAM
+                          # at the standard batch_size of 64.
+  dataloader_workers: 4   
+  max_epochs: 100
+  early_stopping_patience: 15
+  min_delta: 0.00001       # Tiny threshold to stop if stalled
+  scheduler: "cosine"      # Learning rate scheduler
+  use_amp: false            # Mixed-precision training (FP16) for GPU tensor cores
+  # Caps pairwise uniformity loss memory by sampling at most this many nodes.
+  # Complexity is O(n^2), so keep this modest on large universes.
+  uniformity_max_points: 4096
+
+  # Loss weights (Default/Fallback)
+  loss_weights:
+    prediction: 1.0
+    uniformity: 0.01
+    density_matrix: 0.001  # Controls regime entropy regularisation, not density matrix validity.
+    directional: 0.1
+
+  # Loss Profiles for Sensitivity Analysis (A/B Testing)
+  # A: Baseline (Balanced)
+  # B: Structure Focus (Higher uniformity/density penalties)
+  # C: Trading Focus (Higher directional penalty)
+  loss_profiles:
+    A:
+      prediction: 1.0
+      uniformity: 0.01
+      density_matrix: 0.001  # Controls regime entropy regularisation, not density matrix validity.
+      directional: 0.5
+    B:
+      prediction: 1.0
+      uniformity: 0.05
+      density_matrix: 0.005
+      directional: 0.1
+    C:
+      prediction: 1.0
+      uniformity: 0.005
+      density_matrix: 0.0005
+      directional: 1.5
+
+  loss_profile: "C"  # Active profile by default
+
+  # Walk-forward validation
+  walk_forward:
+    train_window: 1260     # Approximately 5 years of trading days
+    validation_window: 252 # Approximately 1 year
+    step_size: 252         # Approximately 1 year advance per fold (Increased to reduce runtime)
+
+# Evaluation settings
+evaluation:
+  ablation_seeds: [42] # Single seed for faster iteration
+  eval_min_price: 5.0
+  eval_min_dollar_volume: 1000000
+  top_k: 50
+  transaction_cost_bps: 20
+  metrics: ["ic", "directional_accuracy", "mse", "mae", "sharpe_daily", "sharpe_annual", "max_drawdown"]
+  bootstrap_resamples: 1000
+  significance_alpha: 0.05
+  experiments_dir: "experiments"
+  figures_dir: "experiments/figures"

@@ -1,0 +1,394 @@
+{
+  "n_rows": 44027405,
+  "n_columns": 41,
+  "date_range": {
+    "start": "1999-01-04 00:00:00",
+    "end": "2026-01-16 00:00:00"
+  },
+  "model_feature_cols": [
+    "log_return_5d",
+    "log_return_20d",
+    "vol_10d",
+    "vol_22d",
+    "vol_60d",
+    "mom_3m",
+    "mom_6m",
+    "mom_12m",
+    "volume_ratio",
+    "amihud_illiquidity",
+    "high_low_spread_22d",
+    "price_to_52w_high"
+  ],
+  "columns": {
+    "Date": {
+      "dtype": "datetime64[ns]",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "is_model_feature": false
+    },
+    "Ticker": {
+      "dtype": "category",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "is_model_feature": false,
+      "unique_count": 20768
+    },
+    "AssetClass": {
+      "dtype": "category",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "is_model_feature": false,
+      "unique_count": 3,
+      "unique_values": [
+        "commodity",
+        "equity",
+        "yield"
+      ]
+    },
+    "Adjusted_close": {
+      "dtype": "float32",
+      "null_count": 267460,
+      "null_pct": 0.61,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 900000.0,
+      "mean": 1626.0968017578125
+    },
+    "Close": {
+      "dtype": "float32",
+      "null_count": 30536,
+      "null_pct": 0.07,
+      "is_model_feature": false,
+      "min": -37.630001068115234,
+      "max": 900000.0,
+      "mean": 219.1398162841797
+    },
+    "Country": {
+      "dtype": "category",
+      "null_count": 68387,
+      "null_pct": 0.16,
+      "is_model_feature": false,
+      "unique_count": 1,
+      "unique_values": [
+        "USA"
+      ]
+    },
+    "High": {
+      "dtype": "float32",
+      "null_count": 65856,
+      "null_pct": 0.15,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 900000.0,
+      "mean": 221.40963745117188
+    },
+    "Low": {
+      "dtype": "float32",
+      "null_count": 65622,
+      "null_pct": 0.15,
+      "is_model_feature": false,
+      "min": -40.31999969482422,
+      "max": 900000.0,
+      "mean": 217.4488983154297
+    },
+    "Open": {
+      "dtype": "float32",
+      "null_count": 65760,
+      "null_pct": 0.15,
+      "is_model_feature": false,
+      "min": -14.0,
+      "max": 900000.0,
+      "mean": 219.3009490966797
+    },
+    "Volume": {
+      "dtype": "float32",
+      "null_count": 35215,
+      "null_pct": 0.08,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 25667530752.0,
+      "mean": 1496919.875
+    },
+    "amihud_illiquidity": {
+      "dtype": "float32",
+      "null_count": 3336100,
+      "null_pct": 7.58,
+      "is_model_feature": true,
+      "min": 0.0,
+      "max": 1000000.0,
+      "mean": 180.9440155029297
+    },
+    "de_slope_proxy": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -1.1270480155944824,
+      "max": 1.163260817527771,
+      "mean": -0.010764985345304012
+    },
+    "global_yc_level": {
+      "dtype": "float32",
+      "null_count": 43992230,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -0.11716363579034805,
+      "max": 4.3130903244018555,
+      "mean": 2.182168960571289
+    },
+    "high_low_spread_22d": {
+      "dtype": "float32",
+      "null_count": 550958,
+      "null_pct": 1.25,
+      "is_model_feature": true,
+      "min": -0.00689131673425436,
+      "max": 1.8531334400177002,
+      "mean": 0.04419220611453056
+    },
+    "is_tradable": {
+      "dtype": "object",
+      "null_count": 68387,
+      "null_pct": 0.16,
+      "is_model_feature": false,
+      "unique_count": 2,
+      "unique_values": [
+        "False",
+        "True"
+      ]
+    },
+    "jp_slope_proxy": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -0.5540000200271606,
+      "max": 0.8429999947547913,
+      "mean": 0.0004406183143146336
+    },
+    "log_return_1d": {
+      "dtype": "float32",
+      "null_count": 270713,
+      "null_pct": 0.61,
+      "is_model_feature": false,
+      "min": -1.0,
+      "max": 1.0,
+      "mean": -0.00040949249523691833
+    },
+    "log_return_1d_raw": {
+      "dtype": "float32",
+      "null_count": 303878,
+      "null_pct": 0.69,
+      "is_model_feature": false,
+      "min": -17.40178680419922,
+      "max": 17.376272201538086,
+      "mean": -0.0004236991808284074
+    },
+    "log_return_20d": {
+      "dtype": "float32",
+      "null_count": 698287,
+      "null_pct": 1.59,
+      "is_model_feature": true,
+      "min": -2.0,
+      "max": 2.0,
+      "mean": -0.007935273461043835
+    },
+    "log_return_20d_raw": {
+      "dtype": "float32",
+      "null_count": 698287,
+      "null_pct": 1.59,
+      "is_model_feature": false,
+      "min": -17.380281448364258,
+      "max": 17.358301162719727,
+      "mean": -0.008162667974829674
+    },
+    "log_return_5d": {
+      "dtype": "float32",
+      "null_count": 388150,
+      "null_pct": 0.88,
+      "is_model_feature": true,
+      "min": -1.5,
+      "max": 1.5,
+      "mean": -0.002045450499281287
+    },
+    "log_return_5d_raw": {
+      "dtype": "float32",
+      "null_count": 388150,
+      "null_pct": 0.88,
+      "is_model_feature": false,
+      "min": -17.376272201538086,
+      "max": 17.39777946472168,
+      "mean": -0.002112609101459384
+    },
+    "mom_12m": {
+      "dtype": "float64",
+      "null_count": 5214144,
+      "null_pct": 11.84,
+      "is_model_feature": true,
+      "min": -1.0,
+      "max": Infinity,
+      "mean": Infinity
+    },
+    "mom_3m": {
+      "dtype": "float64",
+      "null_count": 1566099,
+      "null_pct": 3.56,
+      "is_model_feature": true,
+      "min": -1.0,
+      "max": Infinity,
+      "mean": Infinity
+    },
+    "mom_6m": {
+      "dtype": "float64",
+      "null_count": 2820412,
+      "null_pct": 6.41,
+      "is_model_feature": true,
+      "min": -1.0,
+      "max": Infinity,
+      "mean": Infinity
+    },
+    "price_to_52w_high": {
+      "dtype": "float32",
+      "null_count": 274692,
+      "null_pct": 0.62,
+      "is_model_feature": true,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.7241485714912415
+    },
+    "rolling_median_dollar_vol": {
+      "dtype": "float32",
+      "null_count": 267360,
+      "null_pct": 0.61,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 63324356083712.0,
+      "mean": 552822912.0
+    },
+    "rolling_median_price": {
+      "dtype": "float32",
+      "null_count": 267360,
+      "null_pct": 0.61,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 900000.0,
+      "mean": 1758.0927734375
+    },
+    "rolling_zero_vol_frac": {
+      "dtype": "float32",
+      "null_count": 68387,
+      "null_pct": 0.16,
+      "is_model_feature": false,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.07161178439855576
+    },
+    "spread_us_de_slope": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -1.802015781402588,
+      "max": 3.5170481204986572,
+      "mean": 1.0510145425796509
+    },
+    "spread_us_jp_slope": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -1.1549999713897705,
+      "max": 2.999000072479248,
+      "mean": 1.039808988571167
+    },
+    "spread_us_uk_slope": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -1.882099986076355,
+      "max": 3.3685998916625977,
+      "mean": 1.0406285524368286
+    },
+    "target_fwd": {
+      "dtype": "float32",
+      "null_count": 303878,
+      "null_pct": 0.69,
+      "is_model_feature": false,
+      "min": -1.0,
+      "max": 1.0,
+      "mean": -0.000409991160267964
+    },
+    "uk_slope_proxy": {
+      "dtype": "float32",
+      "null_count": 43992545,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -0.978600025177002,
+      "max": 1.355299949645996,
+      "mean": -0.0003790027694776654
+    },
+    "vol_10d": {
+      "dtype": "float32",
+      "null_count": 498829,
+      "null_pct": 1.13,
+      "is_model_feature": true,
+      "min": 0.0,
+      "max": 1.054092526435852,
+      "mean": 0.03747075796127319
+    },
+    "vol_22d": {
+      "dtype": "float32",
+      "null_count": 719195,
+      "null_pct": 1.63,
+      "is_model_feature": true,
+      "min": 0.0,
+      "max": 1.0235326290130615,
+      "mean": 0.03928209841251373
+    },
+    "vol_60d": {
+      "dtype": "float32",
+      "null_count": 1538005,
+      "null_pct": 3.49,
+      "is_model_feature": true,
+      "min": 0.0,
+      "max": 0.9767996072769165,
+      "mean": 0.04101097956299782
+    },
+    "volume_ratio": {
+      "dtype": "float32",
+      "null_count": 7401290,
+      "null_pct": 16.81,
+      "is_model_feature": true,
+      "min": 2.0377875387112e-08,
+      "max": 19.99957847595215,
+      "mean": 1.0239827632904053
+    },
+    "yc_level": {
+      "dtype": "float32",
+      "null_count": 43992190,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": 0.3149999976158142,
+      "max": 6.744999885559082,
+      "mean": 2.8913021087646484
+    },
+    "yc_slope": {
+      "dtype": "float32",
+      "null_count": 43992190,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -1.0800000429153442,
+      "max": 2.9100000858306885,
+      "mean": 1.031393051147461
+    },
+    "yc_slope_zscore": {
+      "dtype": "float32",
+      "null_count": 43993385,
+      "null_pct": 99.92,
+      "is_model_feature": false,
+      "min": -4.816903114318848,
+      "max": 5.123611927032471,
+      "mean": -0.0146291833370924
+    }
+  }
+}
